@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Hve a gd da</title>
+	<style>
+		*{
+			width:100*;height: 100%;margin:0;
+		}
+		body {
+		  overflow: hidden; /* Hide scrollbars */
+		}
+	</style>
+	<script type="text/javascript">
+		function rgbaPos(){
+			return ", rgba("+(Math.random()*255).toFixed(2)+","+(Math.random()*255).toFixed(2)+","+(Math.random()*255).toFixed(2)+","+Math.random().toFixed(2)+")";
+		}
+		function createGradient(){
+			var div= document.createElement("div");
+			var grad="linear-gradient("+Math.random().toFixed(2)+"turn";
+			for(var i=0;i<=Math.random()*10;i++){
+				grad+=rgbaPos();
+			} 
+			grad+=")";
+			div.style.background=grad;
+			return div;
+		}
+	</script>
+</head>
+<body>
+<script type="text/javascript">
+	var currentDiv= createGradient();
+	document.body.style.background=createGradient().style.background;
+	document.body.appendChild(currentDiv);
+	var tempDiv={};
+	for(var i=0;i<=Math.random()*10;i++){
+		tempDiv=createGradient();
+		currentDiv.appendChild(tempDiv);
+		currentDiv=tempDiv;
+	} 
+</script>
+</body>
+</html>
