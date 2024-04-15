@@ -11,34 +11,78 @@
 		body {
 		  overflow: hidden; /* Hide scrollbars */
 		}
+		div{
+			background-size: 400% 400%;
+
+		}
+		
+		}
 	</style>
 	<script type="text/javascript">
 		function rgbaPos(){
-			return ", rgba("+(Math.random()*255).toFixed(2)+","+(Math.random()*255).toFixed(2)+","+(Math.random()*255).toFixed(2)+","+Math.random().toFixed(2)+")";
+			return ", rgba("+(Math.random()*255).toFixed(0)+","+(Math.random()*255).toFixed(0)+","+(Math.random()*255).toFixed(0)+","+Math.random().toFixed(2)/2+")";
 		}
 		function createGradient(){
-			var div= document.createElement("div");
 			var grad="linear-gradient("+Math.random().toFixed(2)+"turn";
-			for(var i=0;i<=Math.random()*10;i++){
+			for(var i=0;i<=Math.random()*200+1;i++){
 				grad+=rgbaPos();
 			} 
 			grad+=")";
-			div.style.background=grad;
+			return grad;
+		}
+		function createSingleGradientDiv(){
+			var div= document.createElement("div");
+			
+			div.style.background=createGradient();
+			div.style.backgroundSize="400% 400%";
+			/*const moveBG = [
+  				{ backgroundPosition:"0%"+ "0%"},
+				{ backgroundPosition:Math.ceil(Math.random()*100)+"% "+ Math.ceil(Math.random()*100)+"%"},
+				{ backgroundPosition:"0%"+ "0%"},
+			];*/
+			const moveBG=createAnim();
+			const bgTiming = {
+  				duration: (Math.random()*5000+5000),
+  				iterations:Infinity,
+  				animationTimingFunction:"ease-in-out"
+			};
+			div.animate(moveBG,bgTiming);
 			return div;
+		}
+		function createAnim(){
+			var move=[
+					{ backgroundPosition:"0%"+ "0%"},
+				];
+			for(var i=0;i<=Math.random()*10;i++)move.push({ backgroundPosition:Math.ceil(Math.random()*100)+"% "+ Math.ceil(Math.random()*100)+"%"});
+			move.push({ backgroundPosition:"0%"+ "0%"})
+			return move;
+		}
+		function createMultipleGradient(){
+			var background=createGradient();
+			for(var i=0;i<=Math.random()*10;i++)background+=", "+createGradient();
+			return background;
+		}
+		function createMGDIv(){
+			var div = document.createElement("div");
+			div.style.background=createMultipleGradient();
+		}
+		function createGMD(){
+			var master= createSingleGradientDiv();
+			var currentDiv=master;
+			var tempDiv={};
+			for(var i=0;i<=Math.random()*10;i++){
+				tempDiv=createSingleGradientDiv();
+				currentDiv.appendChild(tempDiv);
+				currentDiv=tempDiv;
+			}
+			return master; 
 		}
 	</script>
 </head>
 <body>
 <script type="text/javascript">
-	var currentDiv= createGradient();
-	document.body.style.background=createGradient().style.background;
-	document.body.appendChild(currentDiv);
-	var tempDiv={};
-	for(var i=0;i<=Math.random()*10;i++){
-		tempDiv=createGradient();
-		currentDiv.appendChild(tempDiv);
-		currentDiv=tempDiv;
-	} 
+	document.body.appendChild(createGMD());
+	document.body.style.background="rgb("+(Math.random()*255).toFixed(0)+","+(Math.random()*255).toFixed(0)+","+(Math.random()*255).toFixed(0)+")";
 </script>
 </body>
 </html>
